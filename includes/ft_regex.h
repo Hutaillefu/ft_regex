@@ -1,6 +1,8 @@
 #ifndef FT_regex_H
 # define FT_REGEX_H
 
+#include "libft.h"
+
 typedef struct	s_match
 {
 	int	str_start;	// Start ptr of match in str
@@ -8,17 +10,29 @@ typedef struct	s_match
 	int	word_index;	// Word index of match in str
 }		t_match;
 
-typedef struct	s_matches
+# define FLAGS_G 1
+# define FLAGS_M 2
+# define FLAGS_I 4
+
+typedef struct	s_pattern
 {
-	int	nb_match;
-	t_match	*matches;
-}		t_matches;
+	char	*dyn_str;
+	int	min;
+	int	max;
+	int	(*is_match)(char *, int, struct s_pattern *);
+}		t_pattern;
 
 typedef struct s_regex
 {
-	char	*str;
-	char	*pattern;
+	int	matched;
+	int	flags;
+	t_list	*patterns;
 }		t_regex;
 
-t_matches	*get_matches(t_regex *regex);
+int		get_matches(t_regex *regex, const char *str, const char *pattern);
+
+int		single_char_match(char *str, int start_pos, t_pattern *pattern);
+int		any_char_match(char *str, int start_pos, t_pattern *pattern);
+int		chars_match(char *str, int start_pos, t_pattern *pattern);
+int		single_str_match(char *str, int start_pos, t_pattern *pattern);
 #endif

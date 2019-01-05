@@ -14,12 +14,14 @@ PROG_OBJ = $(PROG_FILE:.c=.o)
 
 all : $(PROG)
 
-$(PROG): $(TOOLS_OBJS)
-	make -C $(LIBFT)
+$(PROG): lib $(TOOLS_OBJS)
 	ar -rcs $(PROG) $(TOOLS_OBJS)
 
+lib:
+	cd $(LIBFT) && make
+
 %.o : %.c
-	gcc $(FLAGS) -o $@ -c $< -I $(INCLUDES)
+	gcc $(FLAGS) -o $@ -c $< -I $(INCLUDES) -I $(LIBFT)
 
 clean:
 	make -C $(LIBFT) clean
@@ -32,5 +34,5 @@ fclean: clean
 
 re: fclean all
 
-test: $(PROG_OBJ)
-	gcc $(FLAGS) $(PROG_OBJ) $(PROG)
+test: all $(PROG_OBJ)
+	gcc $(FLAGS) $(PROG_OBJ) $(PROG) -L $(LIBFT) -lft
