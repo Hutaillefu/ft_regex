@@ -9,6 +9,6 @@ int	main(void)
 	printf("Get_Matches return %d\n", 
 		get_matches(&regex,
 		"Cognac Con Christophe Caracasse",
-		"C[oha]"));
+		"C.*c"));
 	return (0);
 }

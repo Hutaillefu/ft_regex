@@ -37,7 +37,7 @@ int		collection_match(char *str, int index, t_pattern *pattern)
 	int	i;
 
 	if (!str || index < 0 || !pattern)
-		return (0);
+		return (-1);
 
 	tokens = ft_strsplit(pattern->dyn_str, '\n');
 	i = 0;
@@ -49,7 +49,7 @@ int		collection_match(char *str, int index, t_pattern *pattern)
 		}
 		i++;
 	}
-	return (0);
+	return (-1);
 }
 
 int		is_range(const char *str)
@@ -125,7 +125,18 @@ int		parse_limits(t_list **expr_pattern, const char *pattern, int *index)
 
 int		char_match(char *str, int index, t_pattern *pattern)
 {
-	return (str[index] == pattern->dyn_str[0]);
+	int nb;
+
+	nb = index;
+	while ((pattern->dyn_str[0] == '.' ? str[nb] != '\n' : str[nb] == pattern->dyn_str[0]))
+	{
+		if (pattern->max == 1) // ?
+			return (1);
+		nb++;
+	}
+	if (nb - index == 0 && pattern->min == 1)
+		return (-1);
+	return (nb - index);	
 }
 
 int		is_quantifier(char c)
@@ -198,7 +209,7 @@ void		process(t_regex *regex, const char *str, t_list *expr_pattern)
 		while (it)
 		{
 			add = ((t_pattern *)it->content)->is_match((char *)str, index, (t_pattern *)it->content);
-			if (add < 1)
+			if (add == -1)
 				break ;
 			index += add;
 			it = it->next;
