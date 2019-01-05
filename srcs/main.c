@@ -7,6 +7,8 @@ int	main(void)
 	t_regex regex;
 
 	printf("Get_Matches return %d\n", 
-		get_matches(&regex, "Hello World !", "[a-z-+0-9]"));
+		get_matches(&regex,
+		"Cognac Con Christophe Caracasse",
+		"C[oha]"));
 	return (0);
 }

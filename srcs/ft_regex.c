@@ -33,17 +33,30 @@ t_pattern	*create_pattern(int (*is_match)(char *, int, t_pattern *))
 
 int		collection_match(char *str, int index, t_pattern *pattern)
 {
+	char **tokens;
+	int	i;
+
 	if (!str || index < 0 || !pattern)
 		return (0);
-	
-	return (1);
+
+	tokens = ft_strsplit(pattern->dyn_str, '\n');
+	i = 0;
+	while (tokens[i])
+	{
+		if (ft_strlen(tokens[i]) == 1 && str[index] == tokens[i][0])
+		{
+			return (1); // match 1 char
+		}
+		i++;
+	}
+	return (0);
 }
 
 int		is_range(const char *str)
 {
 	if (!str || ft_strlen(str) < 3)
 		return (0);
-	return (ft_isascii(str[0]) && str[1] == '-' && ft_isascii(str[2]));
+	return (ft_isascii(str[0]) && str[1] == '-' && ft_isascii(str[2]) && str[2] != ']');
 }
 
 int		parse_collection(t_list **expr_pattern, const char *pattern, int *index)
@@ -84,11 +97,51 @@ int		parse_collection(t_list **expr_pattern, const char *pattern, int *index)
 
 int		parse_limits(t_list **expr_pattern, const char *pattern, int *index)
 {
+	t_pattern	*selection;
+	
 	if (!expr_pattern || !(*expr_pattern) || !pattern || !index)
 		return (0);
-		
+	
+	selection = (t_pattern *)ft_lstgetindex(expr_pattern, ft_lstlen(expr_pattern) - 1)->content;
+
+	if (pattern[*index] == '*')
+	{
+		selection->min = 0;
+		selection->max = -1; // infini
+	}
+	else if (pattern[*index] == '+')
+	{
+		selection->min = 1;
+		selection->max = -1;
+	}
+	else if (pattern[*index] == '?')
+	{
+		selection->min = 0;
+		selection->max = 1;
+	}
 
 	return (1);
+}
+
+int		char_match(char *str, int index, t_pattern *pattern)
+{
+	return (str[index] == pattern->dyn_str[0]);
+}
+
+int		is_quantifier(char c)
+{	
+	return (c == '{' || c == '*' || c == '+' || c == '?');
+}
+
+void		parse_char(t_list **expr_pattern, const char *pattern, int *index)
+{
+	t_pattern *pattern_expr;
+
+	if (!expr_pattern || !pattern || !index)
+		return ;
+	pattern_expr = create_pattern(&char_match);
+	add_str(&(pattern_expr->dyn_str), ft_strsub(pattern, *index, 1));
+	ft_lstpush(expr_pattern, ft_lstnew(pattern_expr, sizeof(pattern_expr)));
 }
 
 t_list		*parse(const char *pattern)
@@ -110,10 +163,14 @@ t_list		*parse(const char *pattern)
 			index++;
 			parse_collection(&expr_pattern, pattern, &index);
 		}
-		else if (pattern[index] == '{')
+		else if (is_quantifier(pattern[index]))
 		{
 			index++;
 			parse_limits(&expr_pattern, pattern, &index);
+		}
+		else
+		{
+			parse_char(&expr_pattern, pattern, &index);
 		}
 		index++;
 	}
@@ -123,9 +180,37 @@ t_list		*parse(const char *pattern)
 
 void		process(t_regex *regex, const char *str, t_list *expr_pattern)
 {
-	(void)regex;
-	(void)str;
-	(void)expr_pattern;
+	t_list	*it;
+	int	index;
+	int	add;
+	int	start_index;
+
+	if (!regex || !str || !expr_pattern)
+		return ;
+	index = 0;
+	start_index = -1;
+	add = 0;
+	while (start_index < (int)ft_strlen(str))
+	{
+		it = expr_pattern;
+		start_index++;
+		index = start_index;
+		while (it)
+		{
+			add = ((t_pattern *)it->content)->is_match((char *)str, index, (t_pattern *)it->content);
+			if (add < 1)
+				break ;
+			index += add;
+			it = it->next;
+		}
+		if (add > 0 && !it)
+		{
+			regex->matched = 1;
+			printf("fully match\n");
+			start_index = index;
+		}
+
+	}
 }
 
 int	get_matches(t_regex *regex, const char *str, const char *pattern)
