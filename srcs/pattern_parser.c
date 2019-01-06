@@ -61,7 +61,6 @@ int		parse_collection(t_list **expr_pattern, const char *pattern, int *index)
 		else if (is_range(&(pattern[*index])))
 		{
 			add_str(&(pattern_expr->dyn_str), ft_strsub(pattern, *index, 3));
-			printf("%s", pattern_expr->dyn_str);
 			*index+=2;
 		}
 		else
@@ -69,7 +68,6 @@ int		parse_collection(t_list **expr_pattern, const char *pattern, int *index)
 			c = ft_strdup("1");
 			c[0] = pattern[*index];
 			add_str(&(pattern_expr->dyn_str), c);
-			printf("%s", pattern_expr->dyn_str);
 		}
 		(*index)++;
 	}
@@ -79,26 +77,37 @@ int		parse_collection(t_list **expr_pattern, const char *pattern, int *index)
 int		parse_limits(t_list **expr_pattern, const char *pattern, int *index)
 {
 	t_pattern	*selection;
-	
+
+	printf("parse limits\n");
+
 	if (!expr_pattern || !(*expr_pattern) || !pattern || !index)
 		return (0);
 	
 	selection = (t_pattern *)ft_lstgetindex(expr_pattern, ft_lstlen(expr_pattern) - 1)->content;
 
-	if (pattern[*index] == '*')
+	printf("quantifier is %c\n", (unsigned char)pattern[*index]);
+
+	if ((unsigned char)pattern[*index] == '*')
 	{
 		selection->min = 0;
 		selection->max = -1; // infini
 	}
-	else if (pattern[*index] == '+')
+	else if ((unsigned char)pattern[*index] == '+')
 	{
+		printf("Setting up max pattern to -1 for + qualifier\n");
 		selection->min = 1;
 		selection->max = -1;
 	}
-	else if (pattern[*index] == '?')
+	else if ((unsigned char)pattern[*index] == '?')
 	{
+		printf("Setting up max pattern to 1 for ? qualifier\n");
 		selection->min = 0;
 		selection->max = 1;
+	}
+	else if ((unsigned char)pattern[*index] == '{')
+	{
+		(*index)++;
+		// process range quantifier
 	}
 
 	return (1);
@@ -125,7 +134,6 @@ t_list		*parse(const char *pattern)
 		}
 		else if (is_quantifier(pattern[index]))
 		{
-			index++;
 			parse_limits(&expr_pattern, pattern, &index);
 		}
 		else

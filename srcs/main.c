@@ -8,7 +8,7 @@ int	main(void)
 
 	printf("Get_Matches return %d\n", 
 		get_matches(&regex,
-		"Cognac Con Christophe Caracasse",
-		"C.*c"));
+		"Salut nazis nature noob naas n9f neant ",
+		"n.[ao]+"));
 	return (0);
 }

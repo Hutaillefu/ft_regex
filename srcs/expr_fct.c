@@ -1,40 +1,44 @@
 #include "ft_regex.h"
 
-int		collection_match(char *str, int index, t_pattern *pattern)
+int		collection_match(char *str, int index, char *dyn_str)
 {
 	char **tokens;
 	int	i;
+	unsigned char char_index;
 
-	if (!str || index < 0 || !pattern)
+	if (!str || index < 0 || !dyn_str)
 		return (-1);
 
-	tokens = ft_strsplit(pattern->dyn_str, '\n');
+	tokens = ft_strsplit(dyn_str, '\n');
 	i = 0;
 	while (tokens[i])
 	{
 		if (ft_strlen(tokens[i]) == 1 && str[index] == tokens[i][0])
+			return (1);
+		else if (ft_strlen(tokens[i]) == 3 && (unsigned char)tokens[i][1] == '-')
 		{
-			return (1); // match 1 char
+			if ((unsigned char)tokens[i][0] > (unsigned char)tokens[0][2])
+				return (-1); 
+			char_index = (unsigned char)tokens[i][0];
+			while (char_index <= (unsigned char)tokens[i][2])
+			{
+				if ((unsigned char)str[index] == char_index)
+					return (1);
+				char_index++;
+			}
 		}
 		i++;
 	}
-	return (-1);
+	return (0);
 }
 
 
 
-int		char_match(char *str, int index, t_pattern *pattern)
+int		char_match(char *str, int index, char *dyn_str)
 {
-	int nb;
-
-	nb = index;
-	while ((pattern->dyn_str[0] == '.' ? str[nb] != '\n' : str[nb] == pattern->dyn_str[0]))
-	{
-		if (pattern->max == 1) // ?
-			return (1);
-		nb++;
-	}
-	if (nb - index == 0 && pattern->min == 1)
+	if (!str || index < 0 || !dyn_str)
 		return (-1);
-	return (nb - index);	
+	return ((unsigned char)*dyn_str == '.' ?
+		(unsigned char)str[index] != '\n':
+		(unsigned char)str[index] == (unsigned char)*dyn_str);
 }

@@ -2,6 +2,24 @@
 
 #include <stdio.h>
 
+int		call_match_fct(char *str, int index, t_pattern *pattern)
+{
+	int nb;
+
+	if (!str || index < 0 || !pattern)
+		return (-1);
+	nb = index;
+	while (pattern->is_match(str, nb, pattern->dyn_str))
+	{
+		if (pattern->max == 1)
+			return (1);
+		nb++;
+	}
+	if (nb - index == 0 && pattern->min == 1)
+		return (-1);
+	return (nb - index);
+}
+
 void		process(t_regex *regex, const char *str, t_list *expr_pattern)
 {
 	t_list	*it;
@@ -21,17 +39,17 @@ void		process(t_regex *regex, const char *str, t_list *expr_pattern)
 		index = start_index;
 		while (it)
 		{
-			add = ((t_pattern *)it->content)->is_match((char *)str, index, (t_pattern *)it->content);
+			add = call_match_fct((char *)str, index, (t_pattern *)it->content);
 			if (add == -1)
 				break ;
 			index += add;
 			it = it->next;
 		}
-		if (add > 0 && !it)
+		if (!it)
 		{
 			regex->matched = 1;
-			printf("fully match\n");
-			start_index = index;
+			printf("fully match : %s\n", ft_strsub(str, start_index, index - start_index));
+		//	start_index = index;
 		}
 
 	}

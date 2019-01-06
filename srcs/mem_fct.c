@@ -1,6 +1,6 @@
 #include "ft_regex.h"
 
-t_pattern	*create_pattern(int (*is_match)(char *, int, t_pattern *))
+t_pattern	*create_pattern(int (*is_match)(char *, int, char *))
 {
 	t_pattern	*pattern;
 
@@ -11,4 +11,14 @@ t_pattern	*create_pattern(int (*is_match)(char *, int, t_pattern *))
 	pattern->max = 1;
 	pattern->is_match = is_match;
 	return (pattern);
+}
+
+void		free_pattern(t_pattern **pattern)
+{
+	if (!pattern || !(*pattern))
+		return ;
+	if ((*pattern)->dyn_str)
+		ft_strdel(&(*pattern)->dyn_str);
+	free(*pattern);
+	pattern = NULL;
 }
