@@ -2,22 +2,6 @@
 
 #include <stdio.h>
 
-void		add_str(char **str, char *new_str)
-{
-	char *ret;
-
-	if (!str || !new_str)
-		return ;
-
-	ret = *str;
-	*str = ft_strjoin(*str, new_str);
-	free(ret);
-
-	ret = *str;
-	*str = ft_strjoin(*str, "\n");
-	free(ret);
-}
-
 int		collection_match(char *str, int index, t_pattern *pattern)
 {
 	char **tokens;
@@ -39,12 +23,7 @@ int		collection_match(char *str, int index, t_pattern *pattern)
 	return (-1);
 }
 
-int		is_range(const char *str)
-{
-	if (!str || ft_strlen(str) < 3)
-		return (0);
-	return (ft_isascii(str[0]) && str[1] == '-' && ft_isascii(str[2]) && str[2] != ']');
-}
+
 
 int		char_match(char *str, int index, t_pattern *pattern)
 {
@@ -62,10 +41,6 @@ int		char_match(char *str, int index, t_pattern *pattern)
 	return (nb - index);	
 }
 
-int		is_quantifier(char c)
-{	
-	return (c == '{' || c == '*' || c == '+' || c == '?');
-}
 
 void		process(t_regex *regex, const char *str, t_list *expr_pattern)
 {
