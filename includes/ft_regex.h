@@ -31,6 +31,8 @@ typedef struct s_regex
 
 int		get_matches(t_regex *regex, const char *str, const char *pattern);
 
+t_list		*parse(const char *pattern);
+
 int		single_char_match(char *str, int start_pos, t_pattern *pattern);
 int		any_char_match(char *str, int start_pos, t_pattern *pattern);
 int		chars_match(char *str, int start_pos, t_pattern *pattern);
