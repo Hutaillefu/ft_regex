@@ -3,6 +3,8 @@
 
 #include "libft.h"
 
+#include <stdio.h>
+
 typedef struct	s_match
 {
 	int	str_start;	// Start ptr of match in str
@@ -28,6 +30,8 @@ typedef struct s_regex
 	int	flags;
 	t_list	*patterns;
 }		t_regex;
+
+t_pattern	*create_pattern(int (*is_match)(char *, int, struct s_pattern *));
 
 int		get_matches(t_regex *regex, const char *str, const char *pattern);
 

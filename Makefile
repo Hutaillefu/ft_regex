@@ -6,7 +6,9 @@ INCLUDES = ./includes
 FLAGS = -Wall -Werror -Wextra
 
 TOOLS_FILES = 	./srcs/ft_regex.c \
-		./srcs/pattern_parser.c
+		./srcs/pattern_parser.c \
+		./srcs/mem_fct.c \
+		./srcs/expr_fct.c
 
 PROG_FILE = ./srcs/main.c
 
