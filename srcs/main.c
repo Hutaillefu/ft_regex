@@ -8,7 +8,7 @@ int	main(void)
 
 	printf("Get_Matches return %d\n", 
 		get_matches(&regex,
-		"Salut nazis nature noob naas n9f neant ",
-		"n.[ao]+"));
+		"soona noob",
+		".*"));
 	return (0);
 }
