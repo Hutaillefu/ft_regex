@@ -1,5 +1,34 @@
 #include "ft_regex.h"
 
+int		is_quantifier(char c)
+{	
+	return (c == '{' || c == '*' || c == '+' || c == '?');
+}
+
+
+int		is_range(const char *str)
+{
+	if (!str || ft_strlen(str) < 3)
+		return (0);
+	return (ft_isascii(str[0]) && str[1] == '-' && ft_isascii(str[2]) && str[2] != ']');
+}
+
+void		add_str(char **str, char *new_str)
+{
+	char *ret;
+
+	if (!str || !new_str)
+		return ;
+
+	ret = *str;
+	*str = ft_strjoin(*str, new_str);
+	free(ret);
+
+	ret = *str;
+	*str = ft_strjoin(*str, "\n");
+	free(ret);
+}
+
 void		parse_char(t_list **expr_pattern, const char *pattern, int *index)
 {
 	t_pattern *pattern_expr;
