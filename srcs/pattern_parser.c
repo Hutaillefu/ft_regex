@@ -78,29 +78,23 @@ int		parse_limits(t_list **expr_pattern, const char *pattern, int *index)
 {
 	t_pattern	*selection;
 
-	printf("parse limits\n");
-
 	if (!expr_pattern || !(*expr_pattern) || !pattern || !index)
 		return (0);
 	
 	selection = (t_pattern *)ft_lstgetindex(expr_pattern, ft_lstlen(expr_pattern) - 1)->content;
 
-	printf("quantifier is %c\n", (unsigned char)pattern[*index]);
-
 	if ((unsigned char)pattern[*index] == '*')
 	{
 		selection->min = 0;
-		selection->max = -1; // infini
+		selection->max = -1;
 	}
 	else if ((unsigned char)pattern[*index] == '+')
 	{
-		printf("Setting up max pattern to -1 for + qualifier\n");
 		selection->min = 1;
 		selection->max = -1;
 	}
 	else if ((unsigned char)pattern[*index] == '?')
 	{
-		printf("Setting up max pattern to 1 for ? qualifier\n");
 		selection->min = 0;
 		selection->max = 1;
 	}

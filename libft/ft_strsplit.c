@@ -67,7 +67,7 @@ char		**ft_strsplit(char const *s, char c)
 	i = 0;
 	index = 0;
 	nbwords = get_nb_words(s, c);
-	res = (char **)ft_memalloc(sizeof(char *) * nbwords + 1);
+	res = (char **)ft_memalloc(sizeof(char *) * (nbwords + 1));
 	if (!res)
 		return (NULL);
 	i = 0;

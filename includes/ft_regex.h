@@ -1,4 +1,4 @@
-#ifndef FT_regex_H
+#ifndef FT_REGEX_H
 # define FT_REGEX_H
 
 #include "libft.h"
@@ -33,11 +33,12 @@ typedef struct s_regex
 
 t_pattern	*create_pattern(int (*is_match)(char *, int, char *));
 void		free_pattern(t_pattern **pattern);
+void		free_regex(t_regex *regex);
 
-int		get_matches(t_regex *regex, const char *str, const char *pattern);
+int			get_matches(t_regex *regex, const char *str, const char *pattern);
 
 t_list		*parse(const char *pattern);
 
-int		char_match(char *str, int start_pos, char *dyn_str);
-int		collection_match(char *str, int start_pos, char *dyn_str);
+int			char_match(char *str, int start_pos, char *dyn_str);
+int			collection_match(char *str, int start_pos, char *dyn_str);
 #endif

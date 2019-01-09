@@ -38,4 +38,4 @@ fclean: clean
 re: fclean all
 
 test: all $(PROG_OBJ)
-	gcc $(FLAGS) $(PROG_OBJ) $(PROG) -L $(LIBFT) -lft
+	gcc $(FLAGS) -o regex $(PROG_OBJ) $(PROG) -L $(LIBFT) -lft
