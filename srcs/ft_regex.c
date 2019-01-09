@@ -2,6 +2,11 @@
 
 #include <stdio.h>
 
+/*
+  ** Check if pattern match str at current index.
+  ** Process the pattern's quantifier.
+*/
+
 int		call_match_fct(char *str, int index, t_pattern *pattern)
 {
 	int nb;

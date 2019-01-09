@@ -10,20 +10,20 @@ int		collection_match(char *str, int index, char *dyn_str)
 		return (-1);
 
 	tokens = ft_strsplit(dyn_str, '\n');
-	i = 0;
-	while (tokens[i])
+	i = -1;
+	while (tokens[++i])
 	{
-		if (ft_strlen(tokens[i]) == 1 && str[index] == tokens[i][0])
+		if (ft_strlen(tokens[i]) == 1 && str[index] == tokens[i][0]) // single char
 		{
 			ft_free_tab(tokens);
 			return (1);
 		}
-		else if (ft_strlen(tokens[i]) == 3 && (unsigned char)tokens[i][1] == '-')
+		else if (ft_strlen(tokens[i]) == 3 && (unsigned char)tokens[i][1] == '-') // range
 		{
 			if ((unsigned char)tokens[i][0] > (unsigned char)tokens[0][2])
 			{
 				ft_free_tab(tokens);
-					return (-1); 
+				return (-1); 
 			}
 			char_index = (unsigned char)tokens[i][0];
 			while (char_index <= (unsigned char)tokens[i][2])
@@ -36,7 +36,6 @@ int		collection_match(char *str, int index, char *dyn_str)
 				char_index++;
 			}
 		}
-		i++;
 	}
 	ft_free_tab(tokens);
 	return (0);
