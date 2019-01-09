@@ -47,11 +47,12 @@ void		free_list(t_list **lst, void (*del)(void *, int))
 	t_list	*it;
 	t_list	*next;
 
-	if (!lst || !(*lst))
+	if (!lst)
 		return ;
 	it = *lst;
 	while (it)
 	{
+		printf("HERE\n");
 		next = it->next;
 		if (del)
 			del(&(it->content), it->content_size);

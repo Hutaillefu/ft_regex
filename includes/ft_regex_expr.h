@@ -1,35 +1,38 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   ft_lstpoplast.c                                  .::    .:/ .      .::   */
+/*   ft_regex_expr.h                                  .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: htaillef <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2018/10/16 17:54:35 by htaillef     #+#   ##    ##    #+#       */
-/*   Updated: 2018/10/16 17:54:37 by htaillef    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/01/09 16:25:04 by htaillef     #+#   ##    ##    #+#       */
+/*   Updated: 2019/01/09 16:25:06 by htaillef    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef FT_REGEX_EXPR_H
+# define FT_REGEX_EXPR_H
 
-t_list	*ft_lstpoplast(t_list **lst)
-{
-	t_list	*last;
-	t_list	*previous;
+/*
+  ** The flags to use to customise regex process.
+*/
 
-	if (!lst || !(*lst))
-		return (NULL);
-	previous = NULL;
-	last = *lst;
-	while (last->next)
-	{
-		previous = last;
-		last = last->next;
-	}
-	if (previous)
-		previous->next = NULL;
-	else
-		*lst = NULL;
-	return (last);
-}
+# define FLAGS_G 1
+# define FLAGS_M 2
+# define FLAGS_I 4
+
+/*
+  ** Set up each char used for parsing
+*/
+
+# define QUANTIFIER_0_MORE 		'*'
+# define QUANTIFIER_1_MORE 		'+'
+# define QUANTIFIER_0_1 		'?'
+# define QUANTIFIER_GROUP_START	'{'
+# define QUANTIFIER_GROUP_END 	'}'
+
+# define COLLECTION_START		'['
+# define COLLECTION_END			']'
+# define RANGE_SEPARATOR		'-'
+#endif

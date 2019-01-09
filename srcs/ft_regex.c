@@ -48,7 +48,7 @@ void		process(t_regex *regex, const char *str, t_list *expr_pattern)
 		if (!it)
 		{
 			regex->matched = 1;
-			printf("fully match : %s\n", ft_strsub(str, start_index, index - start_index));
+			//printf("fully match : %s\n", ft_strsub(str, start_index, index - start_index));
 			start_index = index - 1;
 		}
 
@@ -61,7 +61,9 @@ int	get_matches(t_regex *regex, const char *str, const char *pattern)
 	
 	if (!regex || !str || !pattern)
 		return (-1);		// Bad parameter pointer
+		
 	regex->matched = 0;
+	regex->patterns = NULL;
 	
 	if (!(expr_pattern = parse(pattern)))
 		return (-2);		// Bad pattern

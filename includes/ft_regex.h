@@ -2,6 +2,7 @@
 # define FT_REGEX_H
 
 #include "libft.h"
+#include "ft_regex_expr.h"
 
 #include <stdio.h>
 
@@ -11,10 +12,6 @@ typedef struct	s_match
 	int	str_end;	// End   ptr of match in str
 	int	word_index;	// Word index of match in str
 }		t_match;
-
-# define FLAGS_G 1
-# define FLAGS_M 2
-# define FLAGS_I 4
 
 typedef struct	s_pattern
 {
