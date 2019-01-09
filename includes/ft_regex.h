@@ -1,10 +1,10 @@
 #ifndef FT_REGEX_H
 # define FT_REGEX_H
 
-#include "libft.h"
-#include "ft_regex_expr.h"
+# include "libft.h"
+# include "ft_regex_expr.h"
 
-#include <stdio.h>
+# include <stdio.h>
 
 typedef struct	s_match
 {

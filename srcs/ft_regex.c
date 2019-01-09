@@ -48,7 +48,7 @@ void		process(t_regex *regex, const char *str, t_list *expr_pattern)
 		if (!it)
 		{
 			regex->matched = 1;
-			//printf("fully match : %s\n", ft_strsub(str, start_index, index - start_index));
+			printf("fully match : %s\n", ft_strsub(str, start_index, index - start_index));
 			start_index = index - 1;
 		}
 

@@ -26,13 +26,13 @@
   ** Set up each char used for parsing
 */
 
-# define QUANTIFIER_0_MORE 		'*'
-# define QUANTIFIER_1_MORE 		'+'
-# define QUANTIFIER_0_1 		'?'
+# define QUANTIFIER_0_MORE 		  '*'
+# define QUANTIFIER_1_MORE 		  '+'
+# define QUANTIFIER_0_1 		    '?'
 # define QUANTIFIER_GROUP_START	'{'
 # define QUANTIFIER_GROUP_END 	'}'
 
-# define COLLECTION_START		'['
-# define COLLECTION_END			']'
-# define RANGE_SEPARATOR		'-'
+# define COLLECTION_START		    '['
+# define COLLECTION_END		    	']'
+# define RANGE_SEPARATOR		    '-'
 #endif

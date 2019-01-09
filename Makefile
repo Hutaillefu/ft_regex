@@ -1,4 +1,4 @@
-PROG = ft_regex.a
+PROG = libregex.a
 
 LIBFT = ./libft
 INCLUDES = ./includes
@@ -34,8 +34,9 @@ clean:
 fclean: clean
 	make -C $(LIBFT) fclean
 	rm -rf $(PROG)
+	rm -rf regex
 
 re: fclean all
 
 test: all $(PROG_OBJ)
-	gcc $(FLAGS) -o regex $(PROG_OBJ) $(PROG) -L $(LIBFT) -lft
+	gcc $(FLAGS) -o regex $(PROG_OBJ) -L $(LIBFT) -lft -L . -lregex
