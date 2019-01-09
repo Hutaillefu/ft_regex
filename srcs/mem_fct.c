@@ -52,7 +52,6 @@ void		free_list(t_list **lst, void (*del)(void *, int))
 	it = *lst;
 	while (it)
 	{
-		printf("HERE\n");
 		next = it->next;
 		if (del)
 			del(&(it->content), it->content_size);

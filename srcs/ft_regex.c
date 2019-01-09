@@ -61,14 +61,15 @@ int	get_matches(t_regex *regex, const char *str, const char *pattern)
 	
 	if (!regex || !str || !pattern)
 		return (-1);		// Bad parameter pointer
-		
+
 	regex->matched = 0;
 	regex->patterns = NULL;
 	
 	if (!(expr_pattern = parse(pattern)))
 		return (-2);		// Bad pattern
 
+	regex->patterns = expr_pattern;
 	process(regex, str, expr_pattern);
-
+	
 	return (regex->matched);
 }
